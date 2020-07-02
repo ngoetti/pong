@@ -1,5 +1,5 @@
 import pygame
-from random import randint
+from random import choice, randint
 
 BLACK = (0, 0, 0)
 
@@ -19,12 +19,12 @@ class Ball(pygame.sprite.Sprite):
         self.image.fill(BLACK)
         self.image.set_colorkey(BLACK)
 
-        self.mask = pygame.Mask([width, height], True)
-
         # Draw the ball (a rectangle!)
         pygame.draw.rect(self.image, color, [0, 0, width, height])
 
-        self.velocity = [randint(-8, 8), randint(-8, 8)]
+        values = list(range(-8, 0))
+        values.extend(list(range(1, 9)))
+        self.velocity = [choice(values), choice(values)]
 
         # Fetch the rectangle object that has the dimensions of the image.
         self.rect = self.image.get_rect()
@@ -39,10 +39,15 @@ class Ball(pygame.sprite.Sprite):
     def bounce(self):
         if self.rect.x <= 40:
             self.velocity[0] = randint(1, 8)
-        elif self.rect.x >= 680:
+        elif self.rect.x >= 660:
             self.velocity[0] = randint(-8, -1)
 
         if self.rect.y <= 40:
             self.velocity[1] = randint(1, 8)
-        elif self.rect.y >= 680:
+        elif self.rect.y >= 660:
             self.velocity[1] = randint(-8, -1)
+
+        if self.velocity[0] == 0:
+            self.velocity[0] = 1
+        if self.velocity[1] == 0:
+            self.velocity[1] = 1

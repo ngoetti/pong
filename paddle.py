@@ -16,8 +16,6 @@ class Paddle(pygame.sprite.Sprite):
         self.image.fill(BLACK)
         self.image.set_colorkey(BLACK)
 
-        self.mask = pygame.Mask([width, height], True)
-
         # Draw the paddle (a rectangle!)
         pygame.draw.rect(self.image, color, [0, 0, width, height])
 
@@ -35,3 +33,13 @@ class Paddle(pygame.sprite.Sprite):
         # Check that you are not going too far (off the screen)
         if self.rect.y > 600:
             self.rect.y = 600
+
+    def changeSize(self, color, width, height):
+        self.image = pygame.Surface([width, height])
+        self.image.fill(BLACK)
+        self.image.set_colorkey(BLACK)
+        # Draw the paddle (a rectangle!)
+        pygame.draw.rect(self.image, color, [0, 0, width, height])
+        self.color = color
+        # Fetch the rectangle object that has the dimensions of the image.
+        self.rect = self.image.get_rect()
